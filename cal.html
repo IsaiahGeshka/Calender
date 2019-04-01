@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta name="description" content="[weeks of month with Javascript, Moment and Moment Range description]">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>weeks of month with Javascript, Moment and Moment Range description</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+
+</head>
+
+<body>
+
+</body>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment-range/4.0.1/moment-range.js"></script>
+    <script>
+        var indexOf = [].indexOf || function (item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+
+
+    </script>
+    <script type="text/javascript">
+        window['moment-range'].extendMoment(moment);
+    
+        var dateApril = new Date("2018-04-01");
+    
+        // year and month are variables
+        year = 2018
+        month = 5 // August (0 indexed)
+        startDate = moment([year, month])
+        
+        document.write("<br/>inputDate : "+dateApril+"<br/>")
+        // console.log("inputDate : ", startDate.format("dddd, MMMM Do YYYY, h:mm:ss a"));
+        // console.log("inputDate : ", startDate.format("dddd, MMMM D YYYY, h:mm:ss a"));
+        // console.log("inputDate : ", startDate.format("5, DD"));
+
+        // // Get the first and last day of the month
+        firstDay = moment(startDate).startOf('month')
+        endDay = moment(startDate).endOf('month')
+    
+        //console.log("firstDay : ", firstDay.format("dddd, MMMM Do YYYY, h:mm:ss a"));
+        //console.log("endDay : ", endDay.format("dddd, MMMM Do YYYY, h:mm:ss a"));
+        // // Create a range for the month we can iterate through
+        monthRange = moment.range(firstDay, endDay);
+        //console.log("monthRange : ", monthRange);
+        // // Get all the weeks during the current month
+        weeks = []
+        for (let mday of monthRange.by('days')) {
+            // console.log("mday", mday.week());
+            if (weeks.indexOf(mday.week()) === -1) {
+                weeks.push(mday.week());
+            }
+        }
+    
+        //console.log("weeks : ", weeks);
+    
+        // // Create a range for each week
+        calendar = []
+        for (let index = 0; index < weeks.length; index++) {
+            var weeknumber = weeks[index];
+    
+    
+            firstWeekDay = moment(firstDay).week(weeknumber).day(0);
+            if (firstWeekDay.isBefore(firstDay)) {
+                firstWeekDay = firstDay;
+            }
+    
+            lastWeekDay = moment(endDay).week(weeknumber).day(6);
+            if (lastWeekDay.isAfter(endDay)) {
+                lastWeekDay = endDay;
+            }
+    
+            //console.log("\n week number: " + index, firstWeekDay.format("DD-MM-YYYY"), lastWeekDay.format("DD-MM-YYYY"));
+            document.write("<br>week number: " + index + " day: "+ firstWeekDay.format("DD-MM-YYYY")+" to "+ lastWeekDay.format("DD-MM-YYYY"))
+            weekRange = moment.range(firstWeekDay, lastWeekDay)
+            calendar.push(weekRange)
+        }
+    
+        //document.write(JSON.stringify(calendar));
+    </script>
+</html>
+
